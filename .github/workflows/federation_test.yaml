@@ -33,5 +33,5 @@ jobs:
         uses: google-github-actions/setup-gcloud@98ddc00a17442e89a24bbf282954a3b65ce6d200 # ratchet:google-github-actions/setup-gcloud@v2
       
       - name: Use gcloud CLI
-        run: gcloud storage buckets list
+        run: gsutil ls gs://jksolbakken-lf260-tfstate/
 
