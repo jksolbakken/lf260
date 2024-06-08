@@ -1,0 +1,40 @@
+name: Test identity federation
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  do-stuff-in-gke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # ratchet:step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            sts.googleapis.com:443
+            iamcredentials.googleapis.com:443
+            storage.googleapis.com:443
+      
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # ratchet:actions/checkout@v4
+        with:
+          persist-credentials: false
+      
+      - name: GCP auth
+        uses: google-github-actions/auth@71fee32a0bb7e97b4d33d548e7d957010649d8fa # ratchet:google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/${{ secrets.GCP_PROJECTID }}/locations/global/workloadIdentityPools/lf260-pool/providers/github
+          service_account: ${{ secrets.GCP_SERVICEUSER }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@98ddc00a17442e89a24bbf282954a3b65ce6d200 # ratchet:google-github-actions/setup-gcloud@v2
+      
+      - name: Use gcloud CLI
+        run: gcloud storage buckets list
+
