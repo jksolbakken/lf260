@@ -1,8 +1,5 @@
 name: Test identity federation
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 jobs:
   do-stuff-in-gke:
