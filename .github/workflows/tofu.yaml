@@ -1,6 +1,9 @@
-name: Setup course infra using OpenTofu
+name: Setup course infra
 on:
   workflow_dispatch:
+defaults:
+  run:
+    working-directory: ./terraform
 jobs:
   setup-infra:
     runs-on: ubuntu-latest
@@ -36,11 +39,11 @@ jobs:
 
       - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # ratchet:opentofu/setup-opentofu@v1
 
-      - run: tofu -chdir=terraform/ init
+      - run: tofu init
       
       - id: plan
         name: Tofu plan
-        run: tofu -chdir=terraform/ plan -no-color
+        run: tofu plan -no-color
         env:
           TF_VAR_gcp_project: ${{ secrets.GCP_PROJECTID }}
           TF_VAR_gcp_region: europe-north1
