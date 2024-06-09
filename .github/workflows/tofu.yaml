@@ -2,7 +2,7 @@ name: Setup course infra using OpenTofu
 on:
   workflow_dispatch:
 jobs:
-  setup-env:
+  setup-infra:
     runs-on: ubuntu-latest
     permissions:
       contents: read
