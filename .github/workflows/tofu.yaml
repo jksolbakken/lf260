@@ -44,6 +44,7 @@ jobs:
         env:
           TF_VAR_gcp_project: ${{ secrets.GCP_PROJECTID }}
           TF_VAR_gcp_region: europe-north1
+          TF_VAR_gcp_zone: europe-north1-a
 
       - run: echo ${{ steps.plan.outputs.stdout }}
       - run: echo ${{ steps.plan.outputs.stderr }}
