@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 defaults:
   run:
-    working-directory: ./terraform
+    working-directory: ./infra
 jobs:
   setup-infra:
     runs-on: ubuntu-latest
