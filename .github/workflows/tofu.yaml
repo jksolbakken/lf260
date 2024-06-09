@@ -1,4 +1,4 @@
-name: Setup course env using OpenTofu
+name: Setup course infra using OpenTofu
 on:
   workflow_dispatch:
 jobs:
@@ -35,7 +35,7 @@ jobs:
 
       - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # ratchet:opentofu/setup-opentofu@v1
 
-      - run: tofu init
+      - run: tofu -chdir=terraform/ init
       
       - id: plan
         name: Tofu plan
