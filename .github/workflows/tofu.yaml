@@ -45,7 +45,7 @@ jobs:
       
       - id: plan
         name: Tofu plan
-        run: tofu plan -lock=false -no-color
+        run: tofu plan -lock=false -out=the_master_plan -no-color
         env:
           TF_VAR_gcp_project: ${{ secrets.GCP_PROJECTID }}
           TF_VAR_gcp_region: europe-north1
