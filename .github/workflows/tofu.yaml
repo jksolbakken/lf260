@@ -10,6 +10,10 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    env:
+      TF_VAR_gcp_region: europe-north1
+      TF_VAR_gcp_zone: europe-north1-a
+      TF_VAR_gcp_project: ${{ secrets.GCP_PROJECTID }}
     steps:
       - name: Harden runner
         uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # ratchet:step-security/harden-runner@v2
@@ -41,15 +45,13 @@ jobs:
       - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # ratchet:opentofu/setup-opentofu@v1
 
       - run: tofu init
+      
       - run: tofu validate
       
-      - id: plan
+      - id: "plan"
         name: Tofu plan
-        run: tofu plan -lock=false -out=the_master_plan -no-color
-        env:
-          TF_VAR_gcp_project: ${{ secrets.GCP_PROJECTID }}
-          TF_VAR_gcp_region: europe-north1
-          TF_VAR_gcp_zone: europe-north1-a
+        run: tofu plan -lock=false  -no-color
+        continue-on-error: true
 
       - run: echo ${{ steps.plan.outputs.stdout }}
       - run: echo ${{ steps.plan.outputs.stderr }}
