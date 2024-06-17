@@ -21,12 +21,12 @@ resource "google_compute_subnetwork" "vpc_sub" {
 
 resource "google_compute_firewall" "rules" {
   project     = var.gcp_project
-  name        = "https4all"
+  name        = "open4all"
   network     = google_compute_network.lfclass_network.id
   description = "allow from all ips"
   allow {
     protocol = "tcp"
-    ports = [ "443" ]
+    ports = [ "22", "443" ]
   }
   source_ranges = [ "0.0.0.0/0" ]
 }
