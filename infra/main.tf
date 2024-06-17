@@ -9,21 +9,20 @@ resource "google_compute_network" "lfclass_network" {
   name = "lfclass"
   auto_create_subnetworks = false
   routing_mode = "REGIONAL"
-
 }
 
 resource "google_compute_subnetwork" "vpc_sub" {
   name = "lfclass-subnetwork"
   ip_cidr_range = "10.2.0.0/16"
   region = var.gcp_region
-  network = google_compute_network.lfclass_network
+  network = google_compute_network.lfclass_network.id
   private_ip_google_access = true
 }
 
 resource "google_compute_firewall" "rules" {
   project     = var.gcp_project
   name        = "https4all"
-  network     = google_compute_network.lfclass_network
+  network     = google_compute_network.lfclass_network.id
   description = "allow from all ips"
   allow {
     protocol = "tcp"
