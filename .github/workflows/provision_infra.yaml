@@ -50,10 +50,11 @@ jobs:
       
       - id: "plan"
         name: Tofu plan
-        run: tofu plan -lock=false  -no-color
+        run: tofu plan -lock=false -no-color
         continue-on-error: true
 
-      - run: echo ${{ steps.plan.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
+      - name: Aftermath
+        run: |
+          echo "YOLO!!!!"
+
 
