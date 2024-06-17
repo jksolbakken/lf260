@@ -19,15 +19,15 @@ jobs:
         uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # ratchet:step-security/harden-runner@v2
         with:
           disable-sudo: true
-          egress-policy: audit
+          egress-policy: block
           allowed-endpoints: >
-            dl.google.com:443
+            checkpoint-api.hashicorp.com:443
             github.com:443
             iamcredentials.googleapis.com:443
-            raw.githubusercontent.com:443
+            registry.terraform.io:443
+            releases.hashicorp.com:443
+            storage.googleapis.com:443
             sts.googleapis.com:443
-            api.github.com:443
-            openidconnect.googleapis.com:443
 
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # ratchet:actions/checkout@v4
         with:
