@@ -45,7 +45,7 @@ resource "google_compute_instance" "master" {
   machine_type = "e2-standard-2"
 
   network_interface {
-    network = "lfclass_network"
+    network = google_compute_network.lfclass_network.id
     access_config {
       nat_ip = google_compute_address.master-ip.address
     }
@@ -66,7 +66,7 @@ resource "google_compute_instance" "worker" {
   machine_type = "e2-standard-2"
 
   network_interface {
-    network = "lfclass_network"
+    network = google_compute_network.lfclass_network.id
     access_config {
       nat_ip = google_compute_address.worker-ip.address
     }
