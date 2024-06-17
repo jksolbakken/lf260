@@ -50,9 +50,9 @@ jobs:
       
       - run: tofu validate
       
-      - id: "apply"
-        name: Tofu apply
-        run: tofu apply -auto-approve -no-color
+      - id: "destroy"
+        name: Tofu destroy
+        run: tofu destroy -auto-approve -no-color
 
 
 
