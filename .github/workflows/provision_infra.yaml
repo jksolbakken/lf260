@@ -19,20 +19,17 @@ jobs:
         uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # ratchet:step-security/harden-runner@v2
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: >
             dl.google.com:443
             github.com:443
             iamcredentials.googleapis.com:443
             raw.githubusercontent.com:443
-            storage.googleapis.com:443
             sts.googleapis.com:443
             api.github.com:443
-            objects.githubusercontent.com:443
-            registry.opentofu.org:443
             openidconnect.googleapis.com:443
 
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # ratchet:actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # ratchet:actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -42,16 +39,15 @@ jobs:
           workload_identity_provider: projects/${{ secrets.GCP_PROJECTID }}/locations/global/workloadIdentityPools/lf260-pool/providers/github
           service_account: ${{ secrets.GCP_SERVICEUSER }}
 
-      - uses: opentofu/setup-opentofu@ae80d4ecaab946d8f5ff18397fbf6d0686c6d46a # ratchet:opentofu/setup-opentofu@v1
+      - uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # ratchet:hashicorp/setup-terraform@v3
 
-      - run: tofu init
-      
-      - run: tofu validate
-      
-      - id: "plan"
-        name: Tofu plan
-        run: tofu plan -lock=false  -no-color
+      - run: terraform fmt -check -diff -recursive .
+
+      - name: Plan Terraform
+        id: plan
         continue-on-error: true
+        run: terraform plan -input=false -no-color
+
 
       - run: echo ${{ steps.plan.outputs.stdout }}
       - run: echo ${{ steps.plan.outputs.stderr }}
