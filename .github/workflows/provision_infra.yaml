@@ -21,16 +21,18 @@ jobs:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
+            api.github.com:443
             checkpoint-api.hashicorp.com:443
+            compute.googleapis.com:443
             github.com:443
             iamcredentials.googleapis.com:443
-            storage.googleapis.com:443
-            raw.githubusercontent.com:443
-            sts.googleapis.com:443
-            api.github.com:443
             objects.githubusercontent.com:443
-            registry.opentofu.org:443
             openidconnect.googleapis.com:443
+            registry.opentofu.org:443
+            registry.terraform.io:443
+            releases.hashicorp.com:443
+            storage.googleapis.com:443
+            sts.googleapis.com:443
 
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # ratchet:actions/checkout@v4
         with:
