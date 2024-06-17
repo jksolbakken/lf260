@@ -61,7 +61,7 @@ jobs:
       - id: "apply"
         name: Tofu apply
         if: "${{ github.event.inputs.action == 'Create' }}"
-        run: tofu destroy -auto-approve -no-color
+        run: tofu apply -auto-approve -no-color
       
       - id: "destroy"
         name: Tofu destroy
