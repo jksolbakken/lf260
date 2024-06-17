@@ -1,6 +1,14 @@
 name: Setup course infra
 on:
   workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        description: What to do?
+        options: 
+          - Create
+          - Destroy
+        default: Create
 defaults:
   run:
     working-directory: ./infra
@@ -50,8 +58,14 @@ jobs:
       
       - run: tofu validate
       
+      - id: "apply"
+        name: Tofu apply
+        if: "${{ github.event.inputs.action == 'Create' }}"
+        run: tofu destroy -auto-approve -no-color
+      
       - id: "destroy"
         name: Tofu destroy
+        if: "${{ github.event.inputs.action == 'Destroy' }}"
         run: tofu destroy -auto-approve -no-color
 
 
