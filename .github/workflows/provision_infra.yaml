@@ -48,15 +48,9 @@ jobs:
       
       - run: tofu validate
       
-      - id: "plan"
-        name: Tofu plan
-        run: tofu plan -lock=false -no-color
-        continue-on-error: true
+      - id: "apply"
+        name: Tofu apply
+        run: tofu apply -auto-approve -no-color
 
-      - name: Aftermath
-        run: |
-          echo "stdout: ${{ steps.plan.outputs.stdout }}"
-          echo "stderr: ${{ steps.plan.outputs.stderr }}"
-          echo "exitcode: ${{ steps.plan.outputs.exitcode }}"
 
 
