@@ -71,5 +71,11 @@ resource "google_compute_instance" "worker" {
     }
   }
 
+  metadata = {
+    "ssh-keys" = <<EOT
+      ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcP70GgnLMgvD76IU3KjwVOqutpwVKnco6Qd/Fn5m3r+1nPOMLfMIcSfMM+PfSLkFOnUMNQGR1mH9bAJc8pXLE= LF260@secretive.jkmbp.local
+     EOT
+  }
+
   allow_stopping_for_update = true
 }
