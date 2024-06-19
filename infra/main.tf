@@ -31,11 +31,7 @@ resource "google_compute_firewall" "rules" {
   source_ranges = [ "0.0.0.0/0" ]
 }
 
-resource "google_compute_address" "master-ip" {
-  name = "master-ipv4-address"
-}
-
-resource "google_compute_address" "worker-ip" {
+resource "google_compute_address" "worker-external-ip" {
   name = "worker-ipv4-address"
 }
 
@@ -46,9 +42,6 @@ resource "google_compute_instance" "master" {
 
   network_interface {
     subnetwork = google_compute_subnetwork.vpc_sub.name
-    access_config {
-      nat_ip = google_compute_address.master-ip.address
-    }
   }
 
   boot_disk {
@@ -68,7 +61,7 @@ resource "google_compute_instance" "worker" {
   network_interface {
     subnetwork = google_compute_subnetwork.vpc_sub.name
     access_config {
-      nat_ip = google_compute_address.worker-ip.address
+      nat_ip = google_compute_address.worker-external-ip.address
     }
   }
 
