@@ -23,10 +23,11 @@ resource "google_compute_firewall" "rules" {
   project     = var.gcp_project
   name        = "open4all"
   network     = google_compute_network.lfclass_network.id
+  target_tags   = [ "allow-ssh" ]
   description = "allow from all ips"
   allow {
     protocol = "tcp"
-    ports = [ "22", "443" ]
+    ports = [ "22" ]
   }
   source_ranges = [ "0.0.0.0/0" ]
 }
@@ -57,6 +58,7 @@ resource "google_compute_instance" "worker" {
   provider     = google
   name         = "worker"
   machine_type = "e2-standard-2"
+  tags   = [ "allow-ssh" ]
 
   network_interface {
     subnetwork = google_compute_subnetwork.vpc_sub.name
@@ -73,7 +75,7 @@ resource "google_compute_instance" "worker" {
 
   metadata = {
     "ssh-keys" = <<EOT
-      ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcP70GgnLMgvD76IU3KjwVOqutpwVKnco6Qd/Fn5m3r+1nPOMLfMIcSfMM+PfSLkFOnUMNQGR1mH9bAJc8pXLE= LF260@secretive.jkmbp.local
+      ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcP70GgnLMgvD76IU3KjwVOqutpwVKnco6Qd/Fn5m3r+1nPOMLfMIcSfMM+PfSLkFOnUMNQGR1mH9bAJc8pXLE= jksolbakken@gmail.com
      EOT
   }
 
